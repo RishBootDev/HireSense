@@ -292,8 +292,7 @@
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		crossorigin="anonymous">
 	<%if (request.getParameter("applied") != null) {%>
-	Swal.fire({icon:'success',title:'Applied
-	Successfully',showConfirmButton:false,timer:1500})
+	Swal.fire({icon:'success',title:'Applied Successfully',showConfirmButton:false,timer:1500})
 	<%}%>
 	function openResumePopup(jobId, score, skills) { 
 	   const resumeUploaded =<%=request.getAttribute("resumeUploaded")%>;

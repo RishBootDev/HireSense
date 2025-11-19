@@ -74,6 +74,15 @@
         <servlet-name>EmployerDashboardServlet</servlet-name>
         <url-pattern>/EmployerDashboardServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>PostJobServlet</servlet-name>
         <servlet-class>org.rishbootdev.hiresenseapplication.controllers.PostJobServlet</servlet-class>

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page
-	import="hiresenseapp.pojo.ApplicationPojo, hiresenseapp.pojo.JobPojo"%>
+	import="org.rishbootdev.hiresenseapplication.pojo.ApplicationPojo, org.rishbootdev.hiresenseapplication.pojo.JobPojo"%>
 <!DOCTYPE html>
 <html>
 <head>

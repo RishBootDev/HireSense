@@ -49,6 +49,15 @@
         <servlet-name>VerifyRegisterOTPServlet</servlet-name>
         <url-pattern>/VerifyRegisterOTPServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminPanelServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.AdminPanelServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminPanelServlet</servlet-name>
+        <url-pattern>/AdminPanelServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>org.rishbootdev.hiresenseapplication.controllers.LoginServlet</servlet-class>

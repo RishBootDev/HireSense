@@ -149,4 +149,65 @@ public class UserDao {
 			return count;
 		}
     }
+
+    public static List<UserPojo> getFilteredUsers(String search, String role, String status) throws Exception {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<UserPojo> userList = new ArrayList<>();
+
+        try {
+            conn = DBConnection.getConnection();
+
+            StringBuilder query = new StringBuilder("SELECT * FROM users WHERE 1=1");
+
+            if (search != null && !search.trim().isEmpty()) {
+                query.append(" AND (name LIKE ? OR email LIKE ?)");
+            }
+            if (role != null && !role.trim().isEmpty()) {
+                query.append(" AND role = ?");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                query.append(" AND status = ?");
+            }
+
+            query.append(" ORDER BY id DESC");
+
+            ps = conn.prepareStatement(query.toString());
+
+            int index = 1;
+
+            if (search != null && !search.trim().isEmpty()) {
+                String like = "%" + search + "%";
+                ps.setString(index++, like);
+                ps.setString(index++, like);
+            }
+            if (role != null && !role.trim().isEmpty()) {
+                ps.setString(index++, role);
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(index++, status);
+            }
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserPojo user = new UserPojo();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("role"));
+                user.setStatus(rs.getString("status"));
+                user.setCreatedAt(rs.getDate("created_at"));
+                userList.add(user);
+            }
+
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            return userList;
+        }
+    }
+
 }

@@ -85,24 +85,41 @@
                     if (users != null && !users.isEmpty()) {
                         for (UserPojo u : users) {
                 %>
-                <tr>
+                <tr  id="user-row-<%= u.getId() %>">
                     <td><%= u.getName() %></td>
                     <td><%= u.getEmail() %></td>
                     <td class="text-capitalize"><%= u.getRole() %></td>
                     <td class="text-capitalize"><%= u.getStatus() %></td>
+
+
                     <td>
+                        <% boolean isBlocked = u.getStatus().equals("blocked"); %>
+
                         <form action="UpdateUserStatusServlet" method="post" class="d-inline">
                             <input type="hidden" name="userId" value="<%= u.getId() %>">
-                            <button type="submit" name="action" value="block"
-                                    class="btn btn-danger btn-sm">Block</button>
+                            <button type="submit"
+                                    name="action"
+                                    value="block"
+                                    class="btn btn-danger btn-sm update-btn"
+                                    data-userid="<%= u.getId() %>"
+                                    <%= isBlocked ? "disabled" : "" %>>
+                                Block
+                            </button>
                         </form>
 
                         <form action="UpdateUserStatusServlet" method="post" class="d-inline">
                             <input type="hidden" name="userId" value="<%= u.getId() %>">
-                            <button type="submit" name="action" value="unblock"
-                                    class="btn btn-success btn-sm">Unblock</button>
+                            <button type="submit"
+                                    name="action"
+                                    value="unblock"
+                                    class="btn btn-success btn-sm update-btn"
+                                    data-userid="<%= u.getId() %>"
+                                    <%= !isBlocked ? "disabled" : "" %>>
+                                Unblock
+                            </button>
                         </form>
                     </td>
+
                 </tr>
                 <%
                     }
@@ -164,5 +181,38 @@
     </main>
 <%@ include file="includes/footer.jsp" %>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const successAlert = document.querySelector(".alert-success");
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.style.transition = "0.5s";
+                successAlert.style.opacity = "0";
+            }, 2500);
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("success") && urlParams.get("success").includes("status")) {
+
+            const lastUpdatedId = sessionStorage.getItem("lastUserUpdated");
+            if (lastUpdatedId) {
+                const row = document.querySelector(`#user-row-${lastUpdatedId}`);
+                if (row) {
+                    row.style.backgroundColor = "#e7ffe7";
+                    row.style.transition = "background-color 1s";
+                }
+            }
+        }
+
+        document.querySelectorAll(".update-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                sessionStorage.setItem("lastUserUpdated", btn.dataset.userid);
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

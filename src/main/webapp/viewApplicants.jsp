@@ -140,7 +140,6 @@ body {
 						<%
 						}
 						%>
-
 					</p>
 					<form method="post" action="UpdateApplicationStatusServlet"
 						class="d-flex gap-2 mt-3">

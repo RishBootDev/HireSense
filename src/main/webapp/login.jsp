@@ -35,7 +35,7 @@
                 <button type="submit" class="btn btn-login mt-2">Login</button>
 
                 <div class="text-center mt-3">
-                    <small>Don;t have an account <a href="register.jsp" class="text-warning">Register</a></small>
+                    <small>Don't have an account <a href="register.jsp" class="text-warning">Register</a></small>
                 </div>
             </form>
         </div>

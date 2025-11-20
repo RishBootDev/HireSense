@@ -67,11 +67,14 @@ public class UploadResumeServlet extends HttpServlet {
 		// Call Affinda  API 
 		try {
 			   String resultJson= AffindaAPI.analyzeResume(resumeFile);
+               System.out.println(resultJson);
 			   JSONObject result=new JSONObject(resultJson);
+               System.out.println(resultJson);
 			   result.getJSONObject("data").put("resumePath", resumeFile.getAbsolutePath());
 			   ResumeAnalysisLogDAO.saveLog(userId,result.toString());
 			   
 		}catch (Exception ex) {
+            System.out.println(ex.getMessage());
 			ex.printStackTrace();
 		}
 		response.sendRedirect("userDashboard.jsp");

@@ -1,7 +1,6 @@
 package org.rishbootdev.hiresenseapplication.controllers;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,10 +10,9 @@ import org.rishbootdev.hiresenseapplication.dao.JobDao;
 import java.io.IOException;
 
 
-
 public class ToggleJobStatusServlet extends HttpServlet {
-	
-	
+
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession(false);
 		if(session==null||session.getAttribute("userId")==null||!"employer".equals((String)session.getAttribute("userRole"))) {
@@ -30,7 +28,4 @@ public class ToggleJobStatusServlet extends HttpServlet {
 			response.sendRedirect("EmployerDashboardServlet?error=1");
 		}
 	}
-
-	
-
 }

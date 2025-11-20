@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 public class AffindaAPI {
 	private static final String API_KEY = "abcdcvd23455";
-	public static String analyzeResume(File resumeFile)throws IOException{
+	public static String analyzeResume1(File resumeFile)throws IOException{
 		String boundary = "----WebKitFormBoundary" + UUID.randomUUID();
         String LINE_FEED = "\r\n";
 
@@ -55,10 +55,43 @@ public class AffindaAPI {
         return new String(responseStream.readAllBytes(), StandardCharsets.UTF_8);
 
 
-
-
 	}
-	public static String extractSummary(String resultJson) {
+    public static String analyzeResume(File resumeFile) throws IOException {
+        String boundary = "----WebKitFormBoundary" + UUID.randomUUID();
+        String LINE_FEED = "\r\n";
+
+        URL url = new URL("http://localhost:2030/api/HireSenseAi/analyze");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+        connection.setDoOutput(true);
+
+        try (OutputStream output = connection.getOutputStream();
+             PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8), true)) {
+
+            writer.append("--").append(boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"")
+                    .append(resumeFile.getName()).append("\"").append(LINE_FEED);
+            writer.append("Content-Type: application/pdf").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.flush();
+
+            Files.copy(resumeFile.toPath(), output);
+            output.flush();
+
+            writer.append(LINE_FEED);
+            writer.append("--").append(boundary).append("--").append(LINE_FEED);
+            writer.flush();
+        }
+
+        InputStream responseStream = connection.getResponseCode() == 200
+                ? connection.getInputStream()
+                : connection.getErrorStream();
+
+        return new String(responseStream.readAllBytes(), StandardCharsets.UTF_8);
+    }
+
+    public static String extractSummary(String resultJson) {
 		
 		String summary=null;
 		try {
@@ -123,9 +156,11 @@ public class AffindaAPI {
 			}
 			return education;
 			}
+
 	public static String extractWorkExperience(String resultJson) {
 		return null;
 	}
+
 	public static List<String> extractSkills(String resultJson) {
 		List<String> skills = new ArrayList<>();
 		try {
@@ -146,7 +181,7 @@ public class AffindaAPI {
 			}
 		return skills;
 		}
-	public static int calculateMatchScore(String jobSkillsCsv, List<String> resumeSkills) {
+	public static int calculateMatchScore1(String jobSkillsCsv, List<String> resumeSkills) {
 		if (resumeSkills == null || resumeSkills.isEmpty()) {
 				return 0;
 		}
@@ -156,16 +191,39 @@ public class AffindaAPI {
 		for (String js : jobSkills) {
 			required.add(js.trim().toLowerCase());
 		}
-
 		int matched = 0;
 		for (String r : resumeSkills) {
 			if (required.contains(r)) {
 				matched++;
 			}
 		}
-
 			return (int) ((matched * 100.0) / required.size());
 		}
+
+    public static int calculateMatchScore(String jobSkillsCsv, List<String> resumeSkills) throws IOException {
+        URL url = new URL("http://localhost:2030/api/HireSenseAi/score?jobSkills="
+                + java.net.URLEncoder.encode(jobSkillsCsv, StandardCharsets.UTF_8));
+
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+
+        JSONArray skillsArray = new JSONArray(resumeSkills);
+
+        try (OutputStream os = connection.getOutputStream()) {
+            byte[] input = skillsArray.toString().getBytes(StandardCharsets.UTF_8);
+            os.write(input);
+        }
+
+        InputStream responseStream = connection.getResponseCode() == 200
+                ? connection.getInputStream()
+                : connection.getErrorStream();
+
+        String response = new String(responseStream.readAllBytes(), StandardCharsets.UTF_8);
+        return Integer.parseInt(response.trim());
+    }
+
 }
 
 

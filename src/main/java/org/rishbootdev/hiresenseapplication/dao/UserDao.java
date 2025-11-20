@@ -10,9 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class UserDao {
-	
+
 	public static int registerUser(UserPojo user)throws Exception{
 		Connection conn=null;
 		PreparedStatement ps=null;
@@ -120,7 +119,6 @@ public class UserDao {
 				user.setCreatedAt(rs.getDate("created_at"));
 				userList.add(user);
 			}
-			
 		}finally {
 			if(rs!=null) {
 				rs.close();
@@ -202,12 +200,10 @@ public class UserDao {
                 user.setCreatedAt(rs.getDate("created_at"));
                 userList.add(user);
             }
-
         } finally {
             if (rs != null) rs.close();
             if (ps != null) ps.close();
             return userList;
         }
     }
-
 }

@@ -83,17 +83,12 @@ public class JobDao {
 		List<JobPojo> list = new ArrayList<>();
 
 		try {
-			// Create a list to hold the resulting JobPojo objects
-
-			// Get a connection to the database
 			conn = DBConnection.getConnection();
 
-			// Base SQL query to fetch job details along with the count of applicants
 			StringBuilder sql = new StringBuilder(
 					"SELECT j.*, (SELECT COUNT(*) FROM applications a WHERE a.job_id = j.id) AS applicant_count "
 							+ "FROM jobs j WHERE j.employer_id = ?");
 
-			// Prepare list of parameters for the query
 			List<Object> params = new ArrayList<>();
 			params.add(employerId); // First parameter is always employerId
 
@@ -103,13 +98,11 @@ public class JobDao {
 				params.add("%" + search + "%");
 			}
 
-			// Add job status filter if provided
 			if (status != null && !status.trim().isEmpty()) {
 				sql.append(" AND j.status = ?");
 				params.add(status);
 			}
 
-			// Handle sorting based on applicant count or created_at
 			if ("asc".equalsIgnoreCase(sort)) {
 				sql.append(" ORDER BY applicant_count ASC");
 			} else if ("desc".equalsIgnoreCase(sort)) {
@@ -118,16 +111,13 @@ public class JobDao {
 				sql.append(" ORDER BY j.created_at DESC");
 			}
 
-			// Prepare and bind parameters to the SQL statement
 			ps = conn.prepareStatement(sql.toString());
 			for (int i = 0; i < params.size(); i++) {
 				ps.setObject(i + 1, params.get(i));
 			}
 
-			// Execute the query and process the result set
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				// Populate the JobPojo object with data from result set
 				JobPojo job = new JobPojo();
 				job.setId(rs.getInt("id"));
 				job.setTitle(rs.getString("title"));
@@ -145,7 +135,6 @@ public class JobDao {
 				list.add(job); // Add job to the list
 			}
 
-			// Return the final list of jobs
 
 		} finally {
 			// Clean up resources to avoid memory leaks

@@ -218,7 +218,7 @@
 		<!--upload resume popup code-->
 		<div class="modal fade" id="uploadresume">
 			<div class="modal-dialog modal-dialog-centered modal-lg">
-				<form action="#" method="post"
+				<form action="UploadResumeServlet" method="post"
 					class="modal-content bg-dark text-white">
 					<div class="modal-header">
 						<h5>Upload Resume</h5>

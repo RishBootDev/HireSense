@@ -74,22 +74,7 @@
         <servlet-name>RemoveJobServlet</servlet-name>
         <url-pattern>/RemoveJobServlet</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>BlockUserServlet</servlet-name>
-        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.BlockUserServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BlockUserServlet</servlet-name>
-        <url-pattern>/BlockUserServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>UnblockUserServlet</servlet-name>
-        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.UnblockUserServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UnblockUserServlet</servlet-name>
-        <url-pattern>/UnblockUserServlet</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>EmployerDashboardServlet</servlet-name>
         <servlet-class>org.rishbootdev.hiresenseapplication.controllers.EmployerDashboardServlet</servlet-class>
@@ -97,6 +82,14 @@
     <servlet-mapping>
         <servlet-name>EmployerDashboardServlet</servlet-name>
         <url-pattern>/EmployerDashboardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateUserStatusServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.UpdateUserStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUserStatusServlet</servlet-name>
+        <url-pattern>/UpdateUserStatusServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -162,6 +155,15 @@
     <servlet-mapping>
         <servlet-name>DownloadResumeServlet</servlet-name>
         <url-pattern>/DownloadResumeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateApplicationStatusServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.UpdateApplicationStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateApplicationStatusServlet</servlet-name>
+        <url-pattern>/UpdateApplicationStatusServlet</url-pattern>
     </servlet-mapping>
 
 </web-app>

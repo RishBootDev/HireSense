@@ -45,8 +45,7 @@ public class PostJobServlet extends HttpServlet {
 				response.sendRedirect("EmployerDashboardServlet?success=1");
 			}else {
 				response.sendRedirect("EmployerDashboardServlet?error=1");
-			}		
-			
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			response.sendRedirect("EmployerDashboardServlet?error=1");

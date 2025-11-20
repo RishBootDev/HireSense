@@ -1,5 +1,8 @@
+<%@ page import="org.rishbootdev.hiresenseapplication.pojo.UserPojo" %>
+<%@ page import="java.util.List" %>
+<%@ page import="org.rishbootdev.hiresenseapplication.pojo.JobPojo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +17,28 @@
 <main class="container py-5">
         <h2 class="mb-4">👑 Admin Dashboard</h2>
 
-        <!--filter section start-->
+    <%
+        String success = request.getParameter("success");
+        String error = request.getParameter("error");
+    %>
+
+    <% if (success != null) { %>
+    <div class="alert alert-success">
+        <%= success %>
+    </div>
+    <% } %>
+
+    <% if (error != null) { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+    <% } %>
+
+
+    <!--filter section start-->
         <div class="p-4 mb-4">
             <h5>Filter Users</h5>
-            <form action="" method="get">
+            <form action="AdminPanelServlet" method="get">
                 <div class="row g-2">
                     <div class="col-md-4">
                         <input type="text" name="search" class="form-control" placeholder="Search by name or email" required>
@@ -58,20 +79,41 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mohnish</td>
-                        <td>mohnish@gmail.com</td>
-                        <td>Employer</td>
-                        <td>Active</td>
-                        <td>
-                            <a href="#" class="btn btn-danger">Block</a>
-                            <a href="#" class="btn btn-success">Unblock</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="5" class="text-center text-warning">No Users Found</td>
-                    </tr>
+                <%
+                    List<UserPojo> users = (List<UserPojo>) request.getAttribute("users");
+
+                    if (users != null && !users.isEmpty()) {
+                        for (UserPojo u : users) {
+                %>
+                <tr>
+                    <td><%= u.getName() %></td>
+                    <td><%= u.getEmail() %></td>
+                    <td class="text-capitalize"><%= u.getRole() %></td>
+                    <td class="text-capitalize"><%= u.getStatus() %></td>
+                    <td>
+                        <form action="UpdateUserStatusServlet" method="post" class="d-inline">
+                            <input type="hidden" name="userId" value="<%= u.getId() %>">
+                            <button type="submit" name="action" value="block"
+                                    class="btn btn-danger btn-sm">Block</button>
+                        </form>
+
+                        <form action="UpdateUserStatusServlet" method="post" class="d-inline">
+                            <input type="hidden" name="userId" value="<%= u.getId() %>">
+                            <button type="submit" name="action" value="unblock"
+                                    class="btn btn-success btn-sm">Unblock</button>
+                        </form>
+                    </td>
+                </tr>
+                <%
+                    }
+                } else {
+                %>
+                <tr>
+                    <td colspan="5" class="text-center text-warning">No Users Found</td>
+                </tr>
+                <% } %>
                 </tbody>
+
             </table>
         </div>
         <!-- user table end-->
@@ -89,19 +131,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Software developer</td>
-                        <td>A2infotech</td>
-                        <td>5</td>
-                        <td>
-                            <a href="#" class="btn btn-danger">Remove</a>
-                        </td>
-                    </tr>
+                <%
+                    List<JobPojo> jobs = (List<JobPojo>) request.getAttribute("jobs");
 
-                    <tr>
-                        <td colspan="4" class="text-center text-warning">No jobs found</td>
-                    </tr>
+                    if (jobs != null && !jobs.isEmpty()) {
+                        for (JobPojo j : jobs) {
+                %>
+                <tr>
+                    <td><%= j.getTitle() %></td>
+                    <td><%= j.getCompany() %></td>
+                    <td><%= j.getApplicantCount() %></td>
+                    <td>
+                        <form action="RemoveJobServlet" method="get">
+                            <input type="hidden" name="jobId" value="<%= j.getId() %>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                <%
+                    }
+                } else {
+                %>
+                <tr>
+                    <td colspan="4" class="text-center text-warning">No jobs found</td>
+                </tr>
+                <% } %>
                 </tbody>
+
             </table>
         </div>
         <!--manage job listing table end-->

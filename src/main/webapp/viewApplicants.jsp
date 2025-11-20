@@ -86,7 +86,7 @@ body {
 
 		<div class="card bg-white p-4 mb-4 border-0 shadow-sm rounded-4">
 			<form method="get" action="ViewApplicantsServlet">
-				<input type="hidden" name="jobId" />
+				<input type="hidden" name="jobId"  value="<%= job.getId() %>" />
 				<div class="row align-items-center">
 					<div class="col-md-4">
 						<label for="status" class="form-label">Filter by Status</label> <select
@@ -151,7 +151,7 @@ body {
 						<button type="submit" name="status" value="rejected"
 							class="btn btn-danger btn-sm small-btn">Reject</button>
 					</form>
-					<form action="" method="get">
+					<form action="ViewApplicantsServlet" method="get">
 						<input type="hidden" name="userId" value="<%=a.getUserId()%>">
 						<button type="submit"
 							class="btn btn-secondary btn-sm small-btn mt-2">

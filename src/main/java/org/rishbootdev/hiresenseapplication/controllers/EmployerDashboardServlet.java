@@ -33,6 +33,7 @@ public class EmployerDashboardServlet extends HttpServlet {
 			request.setAttribute("search",search);
 			request.setAttribute("status",status);
 			request.setAttribute("sort",sort);
+           // System.out.println(4/0);
 			RequestDispatcher rd=request.getRequestDispatcher("employeDashboard.jsp");
 			rd.forward(request, response);			
 		}catch(Exception ex) {
@@ -40,7 +41,4 @@ public class EmployerDashboardServlet extends HttpServlet {
 			response.sendRedirect("error.jsp");
 		}
 	}
-
-	
-
 }

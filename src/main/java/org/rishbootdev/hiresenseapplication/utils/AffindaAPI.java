@@ -166,8 +166,6 @@ public class AffindaAPI {
 
 			return (int) ((matched * 100.0) / required.size());
 		}
-
-
 }
 
 

@@ -86,7 +86,7 @@
 		</div>
 
 		<!--serach and filter job-->
-		<form action="EmployerDashboardServlet" method="post">
+		<form action="EmployerDashboardServlet" method="get">
 			<div class="row g-2">
 				<div class="col-md-4">
 					<input type="text" name="search" class="form-control"

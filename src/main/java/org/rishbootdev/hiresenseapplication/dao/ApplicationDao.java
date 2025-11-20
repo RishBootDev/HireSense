@@ -69,6 +69,7 @@ public class ApplicationDao {
 			List<ApplicationPojo> list=new ArrayList<>();
 			conn=DBConnection.getConnection();
 			String sql="Select * from applications where job_id=? and status=? ORDER BY score DESC";
+            ps=conn.prepareStatement(sql);
 			ps.setInt(1, jobId);
 			ps.setString(2,status);
 			rs=ps.executeQuery();

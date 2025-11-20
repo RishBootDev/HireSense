@@ -17,7 +17,7 @@
         <!--filter section start-->
         <div class="p-4 mb-4">
             <h5>Filter Users</h5>
-            <form action="#" method="get">
+            <form action="" method="get">
                 <div class="row g-2">
                     <div class="col-md-4">
                         <input type="text" name="search" class="form-control" placeholder="Search by name or email" required>

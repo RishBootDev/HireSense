@@ -67,6 +67,30 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>RemoveJobServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.RemoveJobServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveJobServlet</servlet-name>
+        <url-pattern>/RemoveJobServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BlockUserServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.BlockUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlockUserServlet</servlet-name>
+        <url-pattern>/BlockUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UnblockUserServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.UnblockUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UnblockUserServlet</servlet-name>
+        <url-pattern>/UnblockUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>EmployerDashboardServlet</servlet-name>
         <servlet-class>org.rishbootdev.hiresenseapplication.controllers.EmployerDashboardServlet</servlet-class>
     </servlet>

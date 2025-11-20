@@ -29,8 +29,5 @@ public class DownloadResumeServlet extends HttpServlet {
 				out.write(buffer,0,bytesRead);
 			}
 		}
-		
-		
-		
 	}
 }

@@ -18,8 +18,7 @@ import org.rishbootdev.hiresenseapplication.pojo.JobPojo;
 
 public class ViewApplicantsServlet extends HttpServlet {
 	
-    
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession(false);
 		if(session==null||session.getAttribute("userId")==null||!"employer".equals((String)session.getAttribute("userRole"))) {
@@ -43,10 +42,8 @@ public class ViewApplicantsServlet extends HttpServlet {
 				rd.forward(request, response);
 			    
 		}catch(Exception ex) {
+           ex.printStackTrace();
 			throw new ServletException("Unable to fetch applicants or job details");
 		}
 	}
-
-	
-
 }

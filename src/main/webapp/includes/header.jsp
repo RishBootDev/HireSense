@@ -29,7 +29,7 @@
                         <a href="./userDashbaord.jsp" class="nav-link">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./LogOutServlet" class="nav-link">Logout</a>
+                        <a href="./LogoutServlet" class="nav-link">Logout</a>
                     </li>
                     <!--hiring person links end-->
                     <%

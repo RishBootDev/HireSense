@@ -112,11 +112,11 @@
                     <% } else { %>
 
                     <button type="button" class="btn btn-outline-primary btn-sm mt-2"
-                            data-bs-toggle="modal" data-bs-target="#uploadresume"
-                            onclick="openResumePopup(<%=job.getId()%>, <%=job.getScore()%>,
-                                    '<%=job.getSkills().replace("'", "\\'")%>')">
+                            data-bs-toggle="modal" data-bs-target="#resumeModal"
+                            onclick="openResumePopup(<%=job.getId()%>, <%=job.getScore()%>, '<%= job.getSkills().replace("'", "\\'") %>')">
                         Apply Now
                     </button>
+
 
                     <button type="button"
                             class="btn btn-outline-secondary btn-sm mt-2 ms-2"

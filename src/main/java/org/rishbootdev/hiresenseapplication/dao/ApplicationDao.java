@@ -92,6 +92,7 @@ public class ApplicationDao {
 		try {
 			conn=DBConnection.getConnection();
 			String sql="UPDATE applications SET status=? WHERE id=?";
+            ps=conn.prepareStatement(sql);
 			ps.setString(1, status);
 			ps.setInt(2, appId);
 			int rows=ps.executeUpdate();

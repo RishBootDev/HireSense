@@ -17,9 +17,30 @@ public class JobPojo {
 	private String status;
 	private int applicantCount;
 	private double score;
-	public JobPojo(int id, String title, String description, String skills, String company, String location,
-			String experience, String packageLpa, int vacancies, int employerId, Date createdAt, String status,
-			int applicantCount, double score) {
+
+    @Override
+    public String toString() {
+        return "JobPojo{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", skills='" + skills + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                ", experience='" + experience + '\'' +
+                ", packageLpa='" + packageLpa + '\'' +
+                ", vacancies=" + vacancies +
+                ", employerId=" + employerId +
+                ", createdAt=" + createdAt +
+                ", status='" + status + '\'' +
+                ", applicantCount=" + applicantCount +
+                ", score=" + score +
+                '}';
+    }
+
+    public JobPojo(int id, String title, String description, String skills, String company, String location,
+                   String experience, String packageLpa, int vacancies, int employerId, Date createdAt, String status,
+                   int applicantCount, double score) {
 		
 		this.id = id;
 		this.title = title;

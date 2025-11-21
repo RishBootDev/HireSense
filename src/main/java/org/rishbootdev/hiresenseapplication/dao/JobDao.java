@@ -265,6 +265,8 @@ public class JobDao {
 				job.setPackageLpa(rs.getString("package_lpa"));
 				job.setApplicantCount(rs.getInt("applicant_count"));
 				jobs.add(job);
+
+                System.out.println(job);
 			}
 
 			return jobs;

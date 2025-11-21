@@ -30,7 +30,7 @@ public class ApplyJobServlet extends HttpServlet {
 		}
 		int userId=(Integer)session.getAttribute("userId");
 		int jobId=Integer.parseInt(request.getParameter("jobId"));
-		int score=Integer.parseInt(request.getParameter("score"));
+		int score=(int)Double.parseDouble(request.getParameter("score"));
 		try {
 			String resumePath="N/A";
 			List<ResumeAnalysisLogsPojo>logs= ResumeAnalysisLogDAO.getLogsByUser(userId);
@@ -47,10 +47,11 @@ public class ApplyJobServlet extends HttpServlet {
 			MailUtil.sendApplicationConfirmation(u1.getName(),u1.getEmail(),job.getTitle(),job.getCompany());
 			UserPojo u2= UserDao.getUserById(job.getEmployerId());
 			MailUtil.sendNewApplicationNotificationToEmployer(u2.getName(), u2.getEmail(), u1.getName(), job.getTitle());
-			response.sendRedirect("userDashboard.jsp?success=applied");
-		}catch (Exception ex) {
+            response.sendRedirect("UserDashboardServlet?success=applied");
+
+        }catch (Exception ex) {
 			ex.printStackTrace();
-			response.sendRedirect("userDashboard.jsp?error=apply_failed");
+			response.sendRedirect("error.jsp");
 		}
 		
 	}

@@ -26,7 +26,7 @@ public class ViewApplicantsServlet extends HttpServlet {
 			return;
 		}
 		try {
-			    int jobId=Integer.parseInt(request.getParameter("jobId"));
+               int jobId=Integer.parseInt(request.getParameter("jobId"));
 			    String status=request.getParameter("status")!=null?request.getParameter("status"):"applied";
 			    //Fetch job details
 			    JobPojo job= JobDao.getJobById(jobId);

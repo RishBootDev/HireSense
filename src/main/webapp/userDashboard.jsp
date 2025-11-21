@@ -30,6 +30,54 @@
             padding: 3px 8px;
             border-radius: 10px;
         }
+
+        /* FULL SCREEN NEON LOADER OVERLAY (ADDED - does not affect job cards) */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.92);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            backdrop-filter: blur(3px);
+            flex-direction: column;
+            gap: 14px;
+            color: #e6f7ff;
+            text-align: center;
+            padding: 20px;
+        }
+        .neon-loader {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 20px #2575fc;
+            animation: pulseGlow 1.3s infinite ease-in-out;
+        }
+        .neon-loader::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 6px solid transparent;
+            border-top-color: #00d2ff;
+            border-right-color: #007bff;
+            animation: rotateNeon 0.8s linear infinite;
+        }
+        @keyframes rotateNeon { 100% { transform: rotate(360deg); } }
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); box-shadow: 0 0 10px #005eff; }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px #00d5ff; }
+            100% { transform: scale(0.95); box-shadow: 0 0 10px #005eff; }
+        }
+        #loadingOverlay .loaderMessage { font-size: 1.15rem; font-weight: 600; color: #e6f7ff; text-shadow: 0 2px 12px rgba(0,120,255,0.22); }
+        #loadingOverlay .loaderSub { margin-top: 4px; font-size: 0.95rem; color: rgba(230,247,255,0.88); }
+        .dots::after { content: ""; display: inline-block; width: 0.6em; text-align: left; animation: dots 1s steps(4, end) infinite; }
+        @keyframes dots { 0%,20%{content:"";} 40%{content:".";} 60%{content:"..";} 80%,100%{content:"...";} }
     </style>
 </head>
 
@@ -250,6 +298,13 @@
     </div>
 </div>
 
+<!-- Full-screen Neon Loader (added) -->
+<div id="loadingOverlay" role="status" aria-live="polite">
+    <div class="neon-loader" aria-hidden="true"></div>
+    <div class="loaderMessage">Processing...</div>
+    <div class="loaderSub">Please wait<span class="dots"></span></div>
+</div>
+
 <%@ include file="includes/footer.jsp"%>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -258,6 +313,20 @@
 <script>
     // render resumeUploaded as a true/false JS literal (safe)
     const resumeUploaded = <%= (request.getAttribute("resumeUploaded") != null && (Boolean)request.getAttribute("resumeUploaded")) ? "true" : "false" %>;
+
+    // convenience: show/hide loader
+    function showLoader(message, sub) {
+        const ov = document.getElementById('loadingOverlay');
+        if (!ov) return;
+        if (message) ov.querySelector('.loaderMessage').textContent = message;
+        if (sub !== undefined) ov.querySelector('.loaderSub').innerHTML = sub + '<span class="dots"></span>';
+        ov.style.display = 'flex';
+    }
+    function hideLoader() {
+        const ov = document.getElementById('loadingOverlay');
+        if (!ov) return;
+        ov.style.display = 'none';
+    }
 
     // Show success message after apply
     <% if (request.getParameter("applied") != null) { %>
@@ -274,9 +343,6 @@
         jobId = (jobId || '').toString().trim();
         score = (score || '').toString().trim();
         skills = (skills || '').toString();
-
-        // Debug (comment out in production)
-        // console.log("openResumePopup", {jobId, score, skills, resumeUploaded});
 
         if (resumeUploaded) {
             if (!jobId) {
@@ -296,7 +362,7 @@
                 cancelButtonText: "Cancel"
             }).then(result => {
                 if (result.isConfirmed) {
-                    // create form + inputs using DOM API (safer than innerHTML)
+                    showLoader('Applying...', 'Submitting your application');
                     const form = document.createElement("form");
                     form.method = "POST";
                     form.action = "ApplyJobServlet";
@@ -314,17 +380,28 @@
                     form.appendChild(inputScore);
 
                     document.body.appendChild(form);
-                    form.submit();
+                    setTimeout(()=> form.submit(), 60);
                 }
             });
         } else {
-            // open upload modal and set hidden inputs (existing form will submit to UploadResumeServlet)
             document.getElementById("modalJobId").value = jobId;
             document.getElementById("modalSkillsHidden").value = skills;
             document.getElementById("resumeFile").value = "";
             new bootstrap.Modal(document.getElementById("resumeModal")).show();
         }
     }
+
+    // show loader when resume upload form submits
+    (function() {
+        const resumeForm = document.getElementById('resumeForm');
+        if (resumeForm) {
+            resumeForm.addEventListener('submit', function(e) {
+                showLoader('Uploading resume...', 'Uploading your resume<span class="dots"></span>');
+                const btn = resumeForm.querySelector('button[type="submit"]');
+                if (btn) btn.disabled = true;
+            });
+        }
+    })();
 
     function showDetailsFromButton(btn) {
         if (!btn) return;

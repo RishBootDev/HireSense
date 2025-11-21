@@ -26,7 +26,7 @@
 
                     <!--hiring person links-->
                     <li class="nav-item">
-                        <a href="./userDashbaord.jsp" class="nav-link">Dashboard</a>
+                        <a href="./UserDashboardServlet" class="nav-link">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a href="./LogoutServlet" class="nav-link">Logout</a>
@@ -38,7 +38,7 @@
 
                     <!--employer links-->
                     <li class="nav-item">
-                        <a href="./employeDashboard.jsp" class="nav-link">Dashboard</a>
+                        <a href="./EmployerDashboardServlet" class="nav-link">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a href="./LogoutServlet" class="nav-link">Logout</a>
@@ -50,7 +50,7 @@
                     
                     <!--admin links-->
                     <li class="nav-item">
-                        <a href="./adminPanel.jsp" class="nav-link">Admin Panel</a>
+                        <a href="./AdminPanelServlet" class="nav-link">Admin Panel</a>
                     </li>
                     <li class="nav-item">
                         <a href="./LogoutServlet" class="nav-link">Logout</a>

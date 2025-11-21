@@ -26,6 +26,7 @@ public class ViewApplicantsServlet extends HttpServlet {
 			return;
 		}
 		try {
+            System.out.println("The id of the job is "+request.getParameter("jobId"));
                int jobId=Integer.parseInt(request.getParameter("jobId"));
 			    String status=request.getParameter("status")!=null?request.getParameter("status"):"applied";
 			    //Fetch job details

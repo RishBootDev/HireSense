@@ -22,63 +22,65 @@ import org.rishbootdev.hiresenseapplication.utils.AffindaAPI;
 
 @MultipartConfig
 public class UploadResumeServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("userId") == null) {
-			response.sendRedirect("login.jsp");
-			return;
-		}
-		int userId = (Integer) session.getAttribute("userId");
-		Part filePart = request.getPart("resume");
-		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		String uploadDir = getServletContext().getRealPath("/resumes");
-		File dir = new File(uploadDir);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		File resumeFile = new File(dir, fileName);
-		try {
-			List<ResumeAnalysisLogsPojo> logs = ResumeAnalysisLogDAO.getLogsByUser(userId);
-			if (!logs.isEmpty()) {
-				String prevJson = logs.get(0).getJsonResult();
-				JSONObject obj = new JSONObject(prevJson);
-				String prevPath = obj.getJSONObject("data").optString("resumePath", null);
-				if (prevPath != null) {
-					File oldFile = new File(prevPath);
-					if (oldFile.exists()) {
-						oldFile.delete();
-					}
-				}
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		try(InputStream input=filePart.getInputStream();FileOutputStream out=new FileOutputStream(resumeFile)){
-			byte[]buffer=new byte[1024];
-			int bytesRead;
-			while((bytesRead=input.read(buffer))!=-1){
-				out.write(buffer,0,bytesRead);
-			}
-		}
-		// Call Affinda  API 
-		try {
-			   String resultJson= AffindaAPI.analyzeResume(resumeFile);
-               System.out.println(resultJson);
-			   JSONObject result=new JSONObject(resultJson);
-               System.out.println(resultJson);
-			   result.getJSONObject("data").put("resumePath", resumeFile.getAbsolutePath());
-			   ResumeAnalysisLogDAO.saveLog(userId,result.toString());
-			   
-		}catch (Exception ex) {
-            System.out.println(ex.getMessage());
-			ex.printStackTrace();
-		}
-		response.sendRedirect("userDashboard.jsp");
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-	}
+        int userId = (Integer) session.getAttribute("userId");
+        Part filePart = request.getPart("resume");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
+        String uploadDir = getServletContext().getRealPath("/resumes");
+        File dir = new File(uploadDir);
+        if (!dir.exists()) dir.mkdirs();
+
+        File resumeFile = new File(dir, fileName);
+
+        // Delete old resume if present
+        try {
+            List<ResumeAnalysisLogsPojo> logs = ResumeAnalysisLogDAO.getLogsByUser(userId);
+            if (!logs.isEmpty()) {
+                String prevJson = logs.get(0).getJsonResult();
+                JSONObject obj = new JSONObject(prevJson);
+                String prevFileName = obj.getJSONObject("data").optString("resumePath", null);
+
+                if (prevFileName != null) {
+                    File oldFile = new File(dir, prevFileName);
+                    if (oldFile.exists()) oldFile.delete();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        // Save file
+        try (InputStream input = filePart.getInputStream(); FileOutputStream out = new FileOutputStream(resumeFile)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        // Call Affinda API and save only file name
+        try {
+            String resultJson = AffindaAPI.analyzeResume(resumeFile);
+            JSONObject result = new JSONObject(resultJson);
+
+            // Only store the file name, not the full path
+            result.getJSONObject("data").put("resumePath", fileName);
+
+            ResumeAnalysisLogDAO.saveLog(userId, result.toString());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        response.sendRedirect("UserDashboardServlet");
+    }
 }

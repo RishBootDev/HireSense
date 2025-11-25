@@ -72,8 +72,6 @@ public class UserDashboardServlet extends HttpServlet {
 			ex.printStackTrace();
 			response.sendRedirect("error.jsp");
 		}
-			
-			
 		}
 		
         @Override

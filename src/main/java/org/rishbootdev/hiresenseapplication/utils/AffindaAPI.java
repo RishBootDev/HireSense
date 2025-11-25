@@ -223,7 +223,6 @@ public class AffindaAPI {
         String response = new String(responseStream.readAllBytes(), StandardCharsets.UTF_8);
         return Integer.parseInt(response.trim());
     }
-
 }
 
 

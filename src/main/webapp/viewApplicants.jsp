@@ -17,8 +17,8 @@
     <link href="/css/style.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f2f4ff;
-            color: #212529;
+            background-color: #4e54c8;
+            color: #26272c;
         }
 
         .applicant-card {

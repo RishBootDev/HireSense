@@ -47,7 +47,7 @@ public class ApplyJobServlet extends HttpServlet {
 			MailUtil.sendApplicationConfirmation(u1.getName(),u1.getEmail(),job.getTitle(),job.getCompany());
 			UserPojo u2= UserDao.getUserById(job.getEmployerId());
 			MailUtil.sendNewApplicationNotificationToEmployer(u2.getName(), u2.getEmail(), u1.getName(), job.getTitle());
-            response.sendRedirect("UserDashboardServlet?success=applied");
+            response.sendRedirect("UserDashBoardServlet?success=applied");
 
         }catch (Exception ex) {
 			ex.printStackTrace();

@@ -157,9 +157,6 @@ public class AffindaAPI {
 			return education;
 			}
 
-	public static String extractWorkExperience(String resultJson) {
-		return null;
-	}
 
 	public static List<String> extractSkills(String resultJson) {
 		List<String> skills = new ArrayList<>();
@@ -199,6 +196,29 @@ public class AffindaAPI {
 		}
 			return (int) ((matched * 100.0) / required.size());
 		}
+
+    public static String extracteWorkExperience(String resultJson) {
+        String experience=null;
+        String totalExperience=null;
+        try {
+            JSONObject result = new JSONObject(resultJson);
+            JSONObject data = result.getJSONObject("data");
+            JSONArray experienceArr = data.optJSONArray("sections");
+            totalExperience = data.optString("totalYearsExperience");            if (experienceArr != null) {
+                for (int i = 0; i < experienceArr.length(); i++) {
+                    JSONObject experienceObj = experienceArr.getJSONObject(i);
+                    String sectionType = experienceObj.optString("sectionType");
+                    if(sectionType.equalsIgnoreCase("WorkExperience")) {
+                        experience = experienceObj.optString("text");
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Total Experience : "+totalExperience+"\n"+experience;
+    }
 
     public static int calculateMatchScore(String jobSkillsCsv, List<String> resumeSkills) throws IOException {
         URL url = new URL("http://localhost:2030/api/HireSenseAi/score?jobSkills="

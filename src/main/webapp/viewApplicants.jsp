@@ -150,6 +150,13 @@
                             class="btn btn-danger btn-sm small-btn">Reject</button>
                 </form>
                 <!-- removed the view full details button because it was optional since i was sending him the resume -->
+                <form action="ResumeDetailServlet" method="get">
+                    <input type="hidden" name="userId" value="<%=a.getUserId()%>">
+                    <button type="submit"
+                            class="btn btn-secondary btn-sm small-btn mt-2">
+                        <i class="bi bi-eye"></i> View Full Details
+                    </button>
+                </form>
                 <div class="match-badge">
                     Match: <strong><%=a.getScore()%>%</strong>
                 </div>

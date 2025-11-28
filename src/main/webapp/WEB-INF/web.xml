@@ -166,4 +166,13 @@
         <url-pattern>/UpdateApplicationStatusServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ResumeDetailServlet</servlet-name>
+        <servlet-class>org.rishbootdev.hiresenseapplication.controllers.ResumeDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResumeDetailServlet</servlet-name>
+        <url-pattern>/ResumeDetailServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

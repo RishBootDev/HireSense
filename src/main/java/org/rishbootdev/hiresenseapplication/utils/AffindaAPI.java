@@ -198,6 +198,7 @@ public class AffindaAPI {
 		}
 
     public static String extracteWorkExperience(String resultJson) {
+        System.out.println(resultJson);
         String experience=null;
         String totalExperience=null;
         try {

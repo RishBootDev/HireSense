@@ -39,7 +39,5 @@ public class ResumeAnalysisLogsPojo {
 	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
 
 }
